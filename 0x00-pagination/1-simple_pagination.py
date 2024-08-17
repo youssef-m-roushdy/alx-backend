@@ -36,7 +36,7 @@ class Server:
         """Retrieves a page of data.
         """
         assert isinstance(page, int) and isinstance(page_size, int)
-        assert  page > 0 and page_size > 0
+        assert page > 0 and page_size > 0
         ds = self.dataset()
         start_idx, end_idx = index_range(page, page_size)
         if len(ds) < start_idx:
