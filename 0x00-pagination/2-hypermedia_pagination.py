@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Module to provide pagination and hypermedia information.
+pagination and hypermedia information.
 """
 import math
 from typing import Dict
