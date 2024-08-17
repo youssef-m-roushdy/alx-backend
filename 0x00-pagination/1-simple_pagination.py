@@ -10,7 +10,7 @@ def index_range(page, page_size):
     """
     start_idx = (page - 1) * page_size
     end_idx = page * page_size
-    return start_idx, end_idx
+    return tuple([start_idx, end_idx])
 
 
 class Server:
