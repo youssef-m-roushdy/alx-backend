@@ -3,8 +3,6 @@
 Main file
 """
 
-
-
 Server = __import__('1-simple_pagination').Server
 
 server = Server()
