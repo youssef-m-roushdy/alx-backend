@@ -2,7 +2,8 @@
 import csv
 import math
 from typing import List
-
+"""Task 1: Simple pagination.
+"""
 
 def index_range(page, page_size):
     """
