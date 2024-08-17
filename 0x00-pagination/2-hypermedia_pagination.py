@@ -5,7 +5,7 @@ Module to provide pagination and hypermedia information.
 import math
 from typing import Dict
 Server = __import__('1-simple_pagination').Server
-    
+
 server = Server()
 
 
