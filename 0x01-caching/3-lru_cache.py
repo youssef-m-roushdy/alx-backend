@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-""" FIFOCache module
+""" LRUCache module
 """
 BasicCache = __import__('0-basic_cache').BasicCache
 
 
-class FIFOCache(BasicCache):
-    """ FIFOCache defines:
+class LRUCache(BasicCache):
+    """ LRUCache defines:
       - constants of your caching system
       - where your data are stored (in a dictionary)
     """
