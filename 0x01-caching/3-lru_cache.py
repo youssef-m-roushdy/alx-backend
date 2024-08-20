@@ -18,25 +18,23 @@ class LRUCache(BasicCache):
         """
         if key is None or item is None:
             return
-        if key in self.lru_keys:
+
+        if key in self.cache_data:
             self.lru_keys.remove(key)
-            self.lru_keys.append(key)
-        else:
-            self.lru_keys.append(key)
-        self.cache_data[key] = item
-        if len(self.cache_data) > self.MAX_ITEMS:
-            removed_key = self.lru_keys[0]
-            self.lru_keys.remove(removed_key)
-            self.cache_data.pop(removed_key)
+        elif len(self.cache_data) >= self.MAX_ITEMS:
+            removed_key = self.lru_keys.pop(0)
+            del self.cache_data[removed_key]
             print("DISCARD: {}".format(removed_key))
+
+        self.cache_data[key] = item
+        self.lru_keys.append(key)
 
     def get(self, key):
         """ Get an item by key
         """
-        print(self.lru_keys)
-        if key is None or key not in self.cache_data.keys():
+        if key is None or key not in self.cache_data:
             return None
-
         self.lru_keys.remove(key)
         self.lru_keys.append(key)
+
         return self.cache_data[key]
