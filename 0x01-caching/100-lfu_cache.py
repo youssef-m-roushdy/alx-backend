@@ -23,7 +23,7 @@ class LFUCache(BasicCache):
             self.lfu_dict[key] += 1
         else:
             if len(self.cache_data) >= self.MAX_ITEMS:
-                lfu = min(self.lfu_dict.items())
+                lfu = min(self.lfu_dict.values())
                 lfu_keys = [k for k, v in self.lfu_dict.items() if v == lfu]
                 if lfu_keys:
                     removed_key = lfu_keys[0]
