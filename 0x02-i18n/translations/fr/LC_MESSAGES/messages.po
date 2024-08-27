@@ -6,4 +6,4 @@ msgid "home_title"
 msgstr "Bienvenue chez Holberton"
 
 msgid "home_header"
-msgstr ""
+msgstr "Bonjour monde!"
