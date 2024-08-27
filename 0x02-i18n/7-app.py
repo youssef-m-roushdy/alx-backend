@@ -86,7 +86,7 @@ def home():
     """
     Return the home page content through the template
     """
-    return render_template('5-index.html')
+    return render_template('7-index.html')
 
 
 if __name__ == '__main__':
