@@ -35,7 +35,11 @@ users = {
 @babel.localeselector
 def get_locale():
     """
-    Determine the best match with our supported languages
+    Determine the best match with our supported languages in the order of:
+    1. Locale from URL parameters
+    2. Locale from user settings
+    3. Locale from request header
+    4. Default locale
     """
     locale = request.args.get('locale')
     if locale and locale in app.config['LANGUAGES']:
