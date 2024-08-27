@@ -46,9 +46,10 @@ def get_locale():
         return locale
 
     user_id = request.args.get('login_as')
-    user = get_user(int(user_id))
-    if user and user.get('locale') in app.config['LANGUAGES']:
-        return user['locale']
+    if user_id and user_id.isdigit():
+        user = get_user(int(user_id))
+        if user and user.get('locale') in app.config['LANGUAGES']:
+            return user['locale']
 
     # Fallback to the previous default behavior
     locale = request.accept_languages.best_match(app.config['LANGUAGES'])
