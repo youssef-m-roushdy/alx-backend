@@ -38,7 +38,9 @@ def home():
     """
     home_title = gettext('home_title')
     home_header = gettext('home_header')
-    return render_template('3-index.html', home_title=home_title, home_header=home_header)
+    return render_template('3-index.html',
+                           home_title=home_title,
+                           home_header=home_header)
 
 
 if __name__ == '__main__':
