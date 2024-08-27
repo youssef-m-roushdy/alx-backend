@@ -4,8 +4,6 @@ Flask app
 """
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
-import pytz
-from pytz.exceptions import UnknownTimeZoneError
 
 
 app = Flask(__name__)
@@ -69,35 +67,6 @@ def get_user(id):
     if id in users:
         return users[id]
     return None
-
-@babel.timezoneselector
-def get_timezone():
-    """
-    Determine the best match with our supported time zones in the order of:
-    1. Timezone from URL parameters
-    2. Timezone from user settings
-    3. Default timezone
-    """
-    timezone = request.args.get('timezone')
-    if timezone:
-        try:
-            pytz.timezone(timezone)
-            return timezone
-        except UnknownTimeZoneError:
-            pass  # Timezone is not valid, fall through to next option
-
-    user_id = request.args.get('login_as')
-    if user_id and user_id.isdigit():
-        user = get_user(int(user_id))
-        if user and user.get('timezone'):
-            try:
-                pytz.timezone(user['timezone'])
-                return user['timezone']
-            except UnknownTimeZoneError:
-                pass  # Timezone is not valid, fall through to next option
-
-    # Default timezone
-    return app.config['BABEL_DEFAULT_TIMEZONE']
 
 
 @app.before_request
