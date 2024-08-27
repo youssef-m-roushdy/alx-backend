@@ -70,6 +70,7 @@ def get_user(id):
         return users[id]
     return None
 
+
 @babel.timezoneselector
 def get_timezone():
     """
