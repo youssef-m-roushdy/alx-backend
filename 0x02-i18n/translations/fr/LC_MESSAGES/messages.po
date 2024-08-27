@@ -7,4 +7,3 @@ msgstr "Bienvenue chez Holberton"
 
 msgid "home_header"
 msgstr ""
-"Bonjour monde!Project-Id-Version: PROJECT VERSION\n"
