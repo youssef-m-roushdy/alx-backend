@@ -4,6 +4,9 @@ Flask app
 """
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
+import pytz
+from pytz.exceptions import UnknownTimeZoneError
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -60,6 +63,36 @@ def get_locale():
     return app.config['BABEL_DEFAULT_LOCALE']
 
 
+@babel.timezoneselector
+def get_timezone():
+    """
+    Determine the best match with our supported time zones in the order of:
+    1. Timezone from URL parameters
+    2. Timezone from user settings
+    3. Default timezone
+    """
+    timezone = request.args.get('timezone')
+    if timezone:
+        try:
+            pytz.timezone(timezone)
+            return timezone
+        except UnknownTimeZoneError:
+            pass
+
+    user_id = request.args.get('login_as')
+    if user_id and user_id.isdigit():
+        user = get_user(int(user_id))
+        if user and user.get('timezone'):
+            try:
+                pytz.timezone(user['timezone'])
+                return user['timezone']
+            except UnknownTimeZoneError:
+                pass
+
+    # Default timezone
+    return app.config['BABEL_DEFAULT_TIMEZONE']
+
+
 def get_user(id):
     """
     Get user by his id if user found
@@ -72,21 +105,32 @@ def get_user(id):
 @app.before_request
 def before_request():
     """
-    Check user is logged in before request
+    Check if the user is logged in before each request and set the user's timezone.
     """
     user_id = request.args.get('login_as')
     if user_id and user_id.isdigit():
-        g.user = get_user(int(user_id))
+        user = get_user(int(user_id))
+        g.user = user
+        if user and user.get('timezone'):
+            try:
+                user_timezone = pytz.timezone(user['timezone'])
+                g.time = datetime.now(user_timezone)
+            except UnknownTimeZoneError:
+                g.time = None
+        else:
+            g.time = None
     else:
         g.user = None
+        g.time = None
 
+    print(g.time)
 
 @app.route('/', strict_slashes=False)
 def home():
     """
     Return the home page content through the template
     """
-    return render_template('6-index.html')
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
