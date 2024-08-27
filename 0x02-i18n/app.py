@@ -3,7 +3,7 @@
 Flask app
 """
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 import pytz
 from pytz.exceptions import UnknownTimeZoneError
 from datetime import datetime
@@ -114,16 +114,20 @@ def before_request():
         if user and user.get('timezone'):
             try:
                 user_timezone = pytz.timezone(user['timezone'])
-                g.time = datetime.now(user_timezone)
             except UnknownTimeZoneError:
-                g.time = None
+                # Use default timezone if user's timezone is unknown
+                user_timezone = pytz.timezone(app.config['BABEL_DEFAULT_TIMEZONE'])
         else:
-            g.time = None
+            # Use default timezone if no user timezone is set
+            user_timezone = pytz.timezone(app.config['BABEL_DEFAULT_TIMEZONE'])
     else:
         g.user = None
-        g.time = None
+        # Use default timezone if no user is logged in
+        user_timezone = pytz.timezone(app.config['BABEL_DEFAULT_TIMEZONE'])
 
-    print(g.time)
+    # Use Babel's format_datetime to format the date
+    g.time = format_datetime(datetime.now(user_timezone))
+
 
 @app.route('/', strict_slashes=False)
 def home():
