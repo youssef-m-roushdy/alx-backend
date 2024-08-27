@@ -3,7 +3,8 @@
 Flask app
 """
 from flask import Flask, render_template, request
-from flask_babel import Babel, _
+from flask_babel import Babel
+
 
 app = Flask(__name__)
 
@@ -34,13 +35,9 @@ def get_locale():
 @app.route('/')
 def home():
     """
-    Return the home page content throw template
+    Return the home page content through the template
     """
-    home_title = _('home_title')
-    home_header = _('home_header')
-    return render_template('3-index.html',
-                           home_title=home_title,
-                           home_header=home_header)
+    return render_template('3-index.html')
 
 
 if __name__ == '__main__':
