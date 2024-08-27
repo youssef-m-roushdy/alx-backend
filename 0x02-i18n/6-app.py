@@ -85,7 +85,7 @@ def get_timezone():
             pytz.timezone(timezone)
             return timezone
         except UnknownTimeZoneError:
-            pass  # Timezone is not valid, fall through to next option
+            pass
 
     user_id = request.args.get('login_as')
     if user_id and user_id.isdigit():
@@ -95,7 +95,7 @@ def get_timezone():
                 pytz.timezone(user['timezone'])
                 return user['timezone']
             except UnknownTimeZoneError:
-                pass  # Timezone is not valid, fall through to next option
+                pass
 
     # Default timezone
     return app.config['BABEL_DEFAULT_TIMEZONE']
